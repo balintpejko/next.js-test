@@ -1,5 +1,5 @@
 'use client';
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 
 const FallingStars = () => {
   useEffect(() => {
@@ -7,42 +7,35 @@ const FallingStars = () => {
       const star = document.createElement("div");
       const size = Math.random() * 12;
       const duration = Math.random() * 3;
-      const fallSpeed = 1 + Math.random() * 2;
 
       star.classList.add("star");
       document.body.appendChild(star);
 
       // Set initial position and styles
-      const randomLeft = Math.random() * window.innerWidth;
-      star.style.left = `${randomLeft}px`;
+      star.style.left = Math.random() * window.innerWidth + "px";
       star.style.top = "-20px"; // Start slightly above the viewport
       star.style.fontSize = 12 + size + "px";
+      star.style.animationDuration = 4 + duration + "s";
+      star.style.transition = "transform 0.1s linear";
       star.style.pointerEvents = "none";
 
-      // No transition on position to avoid flickering
-      star.style.transition = "none";
-
-      // Smooth falling using requestAnimationFrame
+      // Falling animation using setInterval
+      let fallSpeed = 1 + Math.random() * 2;
       const fall = () => {
         const currentTop = parseFloat(star.style.top);
         star.style.top = currentTop + fallSpeed + "px";
-        star.style.transform = `translateY(${currentTop + fallSpeed}px)`;
 
-        // Reset star when it goes off-screen smoothly
+        // Reset star when it goes off-screen
         if (currentTop > window.innerHeight) {
-          const randomLeft = Math.random() * window.innerWidth;
-          star.style.left = `${randomLeft}px`;
-          star.style.top = "-20px";  // Reset to top smoothly
+          star.style.top = "-20px";
+          star.style.left = Math.random() * window.innerWidth + "px";
         }
-
-        // Continue falling
-        requestAnimationFrame(fall);
       };
-
-      requestAnimationFrame(fall);
+      const fallInterval = setInterval(fall, 20);
 
       // Remove star after a while to avoid overflow
       setTimeout(() => {
+        clearInterval(fallInterval);
         document.body.removeChild(star);
       }, 10000);
     };
@@ -65,19 +58,7 @@ const FallingStars = () => {
         if (distance < 100) {
           const angle = Math.atan2(dy, dx);
           const pushDistance = (100 - distance) / 2;
-
-          // Prevent stars from going off-screen
-          let newX = Math.cos(angle) * pushDistance;
-          let newY = Math.sin(angle) * pushDistance;
-
-          // Boundary logic to prevent off-screen
-          const maxX = window.innerWidth - starRect.width;
-          const maxY = window.innerHeight - starRect.height;
-
-          newX = Math.min(Math.max(newX, 0), maxX);
-          newY = Math.min(Math.max(newY, 0), maxY);
-
-          star.style.transform = `translate(${newX}px, ${newY}px)`;
+          star.style.transform = `translate(${Math.cos(angle) * pushDistance}px, ${Math.sin(angle) * pushDistance}px)`;
         } else {
           star.style.transform = "translate(0, 0)";
         }
@@ -86,7 +67,6 @@ const FallingStars = () => {
 
     window.addEventListener("mousemove", handleMouseMove);
 
-    // Clean up intervals and event listeners
     return () => {
       clearInterval(starInterval);
       window.removeEventListener("mousemove", handleMouseMove);
