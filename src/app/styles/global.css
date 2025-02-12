@@ -1,0 +1,21 @@
+body {
+    background: rgb(2,0,36);
+background: linear-gradient(180deg, rgba(2,0,36,1) 0%, #1F2D4E 48%, #4968B0 100%);
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .star {
+    position: absolute;
+    color: #fca311;
+    pointer-events: none;
+    transition: transform 0.2s ease-out;
+  }
+  
+  .star::before {
+    content: "\f005";
+    font-family: FontAwesome;
+    text-shadow: 0 0 5px #fca311, 0 0 30px #fca311, 0 0 50px #fca311;
+  }
+  
