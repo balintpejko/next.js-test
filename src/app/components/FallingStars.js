@@ -55,17 +55,30 @@ const FallingStars = () => {
         const dx = starX - e.clientX;
         const dy = starY - e.clientY;
         const distance = Math.sqrt(dx * dx + dy * dy);
-
+    
         // If the mouse is close to the star, push it away
         if (distance < 100) {
           const angle = Math.atan2(dy, dx);
           const pushDistance = (100 - distance) / 2;
-          star.style.transform = `translate(${Math.cos(angle) * pushDistance}px, ${Math.sin(angle) * pushDistance}px)`;
+    
+          // Prevent stars from going off-screen
+          let newX = Math.cos(angle) * pushDistance;
+          let newY = Math.sin(angle) * pushDistance;
+    
+          // Boundary logic
+          const maxX = window.innerWidth - starRect.width;
+          const maxY = window.innerHeight - starRect.height;
+    
+          newX = Math.min(Math.max(newX, 0), maxX);
+          newY = Math.min(Math.max(newY, 0), maxY);
+    
+          star.style.transform = `translate(${newX}px, ${newY}px)`;
         } else {
           star.style.transform = "translate(0, 0)";
         }
       });
     };
+    
 
     window.addEventListener("mousemove", handleMouseMove);
 
