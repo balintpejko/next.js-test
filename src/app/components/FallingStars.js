@@ -37,19 +37,11 @@ const FallingStars = () => {
       setTimeout(() => {
         clearInterval(fallInterval);
         document.body.removeChild(star);
-<<<<<<< Updated upstream
-      }, 5000);
-    };
-
-    // Generate stars at intervals
-    const starInterval = setInterval(createStar, 200);
-=======
       }, 7000);
     };
 
     // Generate stars at intervals
     const starInterval = setInterval(createStar, 250);
->>>>>>> Stashed changes
 
     // Push stars away on mouse move
     const handleMouseMove = (e) => {
