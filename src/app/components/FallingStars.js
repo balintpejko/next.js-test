@@ -37,7 +37,7 @@ const FallingStars = () => {
       setTimeout(() => {
         clearInterval(fallInterval);
         document.body.removeChild(star);
-      }, 10000);
+      }, 5000);
     };
 
     // Generate stars at intervals
