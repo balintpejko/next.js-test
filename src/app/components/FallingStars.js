@@ -41,7 +41,7 @@ const FallingStars = () => {
     };
 
     // Generate stars at intervals
-    const starInterval = setInterval(createStar, 100);
+    const starInterval = setInterval(createStar, 200);
 
     // Push stars away on mouse move
     const handleMouseMove = (e) => {
